@@ -59,24 +59,25 @@
 // console.log(typeof json)
 
 // Express 
-const express = require('express')
-const app = express()
+// const express = require('express')
+// const app = express()
 
-app.get('/', function (req, res) {
-    res.send('Hello World')
-})
-app.get('/C', function (req, res) {
-    res.send('Hellrrro World')
-})
-app.get('/idli', function (req, res) {
-    var customized_idli = {
-        name: "idli",
-        price: 10
-    };
-    res.send(customized_idli)
-})
+// app.get('/', function (req, res) {
+//     res.send('Hello World')
+// })
+// app.get('/C', function (req, res) {
+//     res.send('Hellrrro World')
+// })
+// app.get('/idli', function (req, res) {
+//     var customized_idli = {
+//         name: "idli",
+//         price: 10
+//     };
+//     res.send(customized_idli)
+// })
 
 
-app.listen(3000, ()=> {
-    console.log("server is running")
-})
+// app.listen(3000, ()=> {
+//     console.log("server is running")
+// })
+
