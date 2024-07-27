@@ -39,4 +39,43 @@ router.get('/:taste', async(req, res)=> {
     res.status(500).json({ error: "Error fetching taste" });
   }
 })
+
+
+router.put('/:id', async (req, res)=> {
+    try{
+        const menuId = req.params.id;
+        const updatemenuData = req.body;
+
+        const response = await menu.findByIdAndUpdate(menuId, updatemenuData, {
+            new: true,
+            runValidators: true
+        })
+        if (!response) {
+            return res.status(404).json({ error: 'Menu not found' });
+        }
+        console.log('data updated');
+        res.status(200).json(response);
+    }
+    catch(err){
+      console.log(err);
+      res.status(500).json({ error: "Error updating Menu" });
+    }
+  })
+
+  router.delete('/:id', async (req, res)=> {
+    try{
+        const menuId = req.params.id;
+        const response = await menu.findByIdAndDelete(menuId);
+        if (!response) {
+            return res.status(404).json({ error: 'Menu not found' });
+        }
+        console.log('data deleted');
+        res.status(200).json({message: 'Menu Deleted Succesfully'});
+    }
+    catch(err){
+      console.log(err);
+      res.status(500).json({ error: "Error deleting Menu" });
+    }
+  })
+
 module.exports = router;
