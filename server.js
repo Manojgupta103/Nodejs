@@ -64,40 +64,14 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const Person = require("./models/Person");
 const menu = require('./models/menu');
 
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.post("/person", async (req, res) => {
-  try {
-    const data = req.body;
 
-    const newPerson = new Person(data);
 
-    const response = await newPerson.save();
-    console.log("data saved");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error saving person" });
-  }
-});
-
-app.post("/menu", async (req, res) => {
-  try {
-    const data1 = req.body;
-    const newmenu = new menu(data1);
-    const response = await newmenu.save();
-    console.log("data saved");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error saving menu" });
-  }
-});
 
 //Callback Function -  throw new MongooseError('Model.prototype.save() no longer accepts a callback');
 //     const data = req.body
@@ -116,44 +90,13 @@ app.post("/menu", async (req, res) => {
 
 // Get method
 
-app.get("/person", async (req, res) => {
-  try {
-    const data = await Person.find();
-    console.log('data Fetched')
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error fetching person" });
-  }
-});
-app.get("/menu", async (req, res) => {
-  try {
-    const data = await menu.find();
-    console.log('data Fetched')
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error fetching person" });
-  }
-});
 
 
+const personRoutes = require ('./routes/personRoutes');
+app.use('/person', personRoutes);
 
-app.get('/person/:workType', async(req, res)=> {
-  try{
-    const workType = req.params.workType;
-    if(workType == 'chef' || workType == 'waiter' || workType == 'manager' ) {
-      const response = await  Person.find({work: workType});
-      console.log('response Fetched');
-      res.status(200).json(response);
-    }else{
-      res.status(404).json({error: 'Invalid workType'});
-    }
-  }catch(err){
-    console.log(err);
-    res.status(500).json({ error: "Error fetching person" });
-  }
-})
+const menuRoutes = require ('./routes/menuRoutes');
+app.use('/menu', menuRoutes)
 
 app.listen(3000, () => {
   console.log("server is running");
