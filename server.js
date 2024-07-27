@@ -99,6 +99,19 @@ app.post("/person", async (req, res) => {
 //         }
 //     })
 
+// Get method
+
+app.get("/person", async (req, res) => {
+  try {
+    const data = await Person.find();
+    console.log('data Fetched')
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Error fetching person" });
+  }
+});
+
 app.listen(3000, () => {
   console.log("server is running");
 });
