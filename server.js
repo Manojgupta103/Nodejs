@@ -61,24 +61,30 @@
 // Express 
 const express = require('express')
 const app = express()
+const db = require('./db')
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const Person = require('./person');
 app.get('/', function (req, res) {
     res.send('Hello World')
 })
-app.get('/C', function (req, res) {
-    res.send('Hellrrro World')
-})
-app.get('/idli', function (req, res) {
-    var customized_idli = {
-        name: "idli",
-        price: 10
-    };
-    res.send(customized_idli)
-})
 
+app.post('/person', function (req, res) {
+    const data = req.body
 
-app.post('/items', (req, res) => {
-    res.send("Data is received");
+    const newPerson = new Person(data);
+
+    newPerson.save((error, savedperson) => {
+        if (error) {
+            console.log('Error saving person:', error);
+            res.status(500).json({error: 'Error saving person'})
+        }else{
+            console.log('data saved succesfully');
+            res.status(200).json(savedperson);
+        }
+    })
 })
 
 app.listen(3000, ()=> {
