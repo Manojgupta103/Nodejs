@@ -13,7 +13,6 @@
 
 // console.log(result);
 
-
 //Callback Function
 // function callback() {
 //     console.log("callback function is running");
@@ -26,7 +25,6 @@
 // }
 
 // add(2, 45, callback)
-
 
 // Fs module
 // https://nodejs.org/api
@@ -58,36 +56,49 @@
 
 // console.log(typeof json)
 
-// Express 
-const express = require('express')
-const app = express()
-const db = require('./db')
+// Express
+const express = require("express");
+const app = express();
+const db = require("./db");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const Person = require('./person');
-app.get('/', function (req, res) {
-    res.send('Hello World')
-})
+const Person = require("./person");
+app.get("/", function (req, res) {
+  res.send("Hello World");
+});
 
-app.post('/person', function (req, res) {
-    const data = req.body
+app.post("/person", async (req, res) => {
+  try {
+    const data = req.body;
 
     const newPerson = new Person(data);
 
-    newPerson.save((error, savedperson) => {
-        if (error) {
-            console.log('Error saving person:', error);
-            res.status(500).json({error: 'Error saving person'})
-        }else{
-            console.log('data saved succesfully');
-            res.status(200).json(savedperson);
-        }
-    })
-})
+    const response = await newPerson.save();
+    console.log("data saved");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Error saving person" });
+  }
+});
 
-app.listen(3000, ()=> {
-    console.log("server is running")
-})
+//Callback Function -  throw new MongooseError('Model.prototype.save() no longer accepts a callback');
+//     const data = req.body
 
+//     const newPerson = new Person(data);
+
+//     newPerson.save((error, savedperson) => {
+//         if (error) {
+//             console.log('Error saving person:', error);
+//             res.status(500).json({error: 'Error saving person'})
+//         }else{
+//             console.log('data saved succesfully');
+//             res.status(200).json(savedperson);
+//         }
+//     })
+
+app.listen(3000, () => {
+  console.log("server is running");
+});

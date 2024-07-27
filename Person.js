@@ -12,18 +12,18 @@ const personSchema = new mongoose.Schema({
     },
     work: {
         type: String,
-        enum: ['chef', 'waiter', 'manager'],
+        enum: ['Chef', 'waiter', 'manager'],
         required: true
     },
     mobile: {
         type: Number,
         required: true,
-        unique: true
+        // unique: true
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        // unique: true
     },
     address: {
         type: String,
