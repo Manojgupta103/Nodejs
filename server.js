@@ -64,7 +64,9 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const Person = require("./person");
+const Person = require("./models/Person");
+const menu = require('./models/menu');
+
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
@@ -81,6 +83,19 @@ app.post("/person", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Error saving person" });
+  }
+});
+
+app.post("/menu", async (req, res) => {
+  try {
+    const data1 = req.body;
+    const newmenu = new menu(data1);
+    const response = await newmenu.save();
+    console.log("data saved");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Error saving menu" });
   }
 });
 
