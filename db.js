@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
-const url = "mongodb://localhost:27017/mydb";
+// Localhost
+// const url = "mongodb://localhost:27017/mydb";
+
+// Local in env
+// const url = process.env.MONGODB_URL_LOCAL
+// Atlas
+const url = process.env.MONGODB_URL;
 
 mongoose.connect(url, {
   useNewUrlParser: true,
