@@ -64,14 +64,11 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const menu = require('./models/menu');
+const menu = require("./models/menu");
 
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
-
-
-
 
 //Callback Function -  throw new MongooseError('Model.prototype.save() no longer accepts a callback');
 //     const data = req.body
@@ -90,13 +87,11 @@ app.get("/", function (req, res) {
 
 // Get method
 
+const personRoutes = require("./routes/personRoutes");
+app.use("/person", personRoutes);
 
-
-const personRoutes = require ('./routes/personRoutes');
-app.use('/person', personRoutes);
-
-const menuRoutes = require ('./routes/menuRoutes');
-app.use('/menu', menuRoutes)
+const menuRoutes = require("./routes/menuRoutes");
+app.use("/menu", menuRoutes);
 
 app.listen(3000, () => {
   console.log("server is running");
