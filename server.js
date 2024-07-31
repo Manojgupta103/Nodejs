@@ -61,6 +61,9 @@ const express = require("express");
 const app = express();
 const db = require("./db");
 require('dotenv').config();
+const passport = require("passport")
+const LocalStratergy = require("passport-local").Strategy;
+const Person = require("./models/Person");
 const PORT = process.env.PORT || 3000;
 
 
@@ -95,8 +98,26 @@ const logRequest = (req, res, next) => {
   console.log(`[${new Date().toLocaleString()}] Request Made to: ${req.originalUrl}`);
   next();
 }
+app.use(logRequest);
 
-app.get("/",logRequest, function (req, res) {
+app.use(new LocalStratergy(async(username, password, done) => {
+  // authentication logic here
+  try{
+    console.log('Received Credentials:',username,password );
+    const user = Person.findOne({username: username});
+    if(!user)
+      return done(null, false, {message: 'Incorrect username'});
+      const isPasswordMatch = user.password === password ? true : false;
+      if(isPasswordMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, {message: 'Incorrect password'});
+    }
+  }catch (err) {
+    return done(err);
+  }
+}))
+app.get("/", function (req, res) {
   res.send("Welcome to Hotel;");
 });
 const personRoutes = require("./routes/personRoutes");
