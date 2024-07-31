@@ -69,9 +69,7 @@ app.use(bodyParser.json());
 
 const menu = require("./models/menu");
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
+
 
 //Callback Function -  throw new MongooseError('Model.prototype.save() no longer accepts a callback');
 //     const data = req.body
@@ -90,6 +88,17 @@ app.get("/", function (req, res) {
 
 // Get method
 
+
+
+// Middle Ware
+const logRequest = (req, res, next) => {
+  console.log(`[${new Date().toLocaleString()}] Request Made to: ${req.originalUrl}`);
+  next();
+}
+
+app.get("/",logRequest, function (req, res) {
+  res.send("Welcome to Hotel;");
+});
 const personRoutes = require("./routes/personRoutes");
 app.use("/person", personRoutes);
 
