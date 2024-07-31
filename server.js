@@ -100,11 +100,11 @@ const logRequest = (req, res, next) => {
 }
 app.use(logRequest);
 
-app.use(new LocalStratergy(async(username, password, done) => {
+passport.use(new LocalStratergy(async(username, password, done) => {
   // authentication logic here
   try{
     console.log('Received Credentials:',username,password );
-    const user = Person.findOne({username: username});
+    const user = await Person.findOne({username: username});
     if(!user)
       return done(null, false, {message: 'Incorrect username'});
       const isPasswordMatch = user.password === password ? true : false;
@@ -117,8 +117,12 @@ app.use(new LocalStratergy(async(username, password, done) => {
     return done(err);
   }
 }))
-app.get("/", function (req, res) {
-  res.send("Welcome to Hotel;");
+
+app.use(passport.initialize());
+
+const localAuthMiddleware = passport.authenticate('local', {session:false})
+app.get("/", localAuthMiddleware, function (req, res) {
+  res.send("Welcome to Hotel");
 });
 const personRoutes = require("./routes/personRoutes");
 app.use("/person", personRoutes);
