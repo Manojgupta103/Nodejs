@@ -1,77 +1,88 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const menu = require("./../models/menu");
+const MenuItem = require('./../models/menu');
 
-// Post method menu
-router.post("/", async (req, res) => {
-  try {
-    const data1 = req.body;
-    const newmenu = new menu(data1);
-    const response = await newmenu.save();
-    console.log("data saved");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error saving menu" });
-  }
-});
-
-// Get Method - Menu
-router.get("/", async (req, res) => {
-  try {
-    const data = await menu.find();
-    console.log("data Fetched");
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error fetching person" });
-  }
-});
-
-router.get("/:taste", async (req, res) => {
-  const taste = req.params.taste;
-  try {
-    const data = await menu.find({ taste: taste });
-    console.log("data Fetched");
-    res.status(200).json(data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error fetching taste" });
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  try {
-    const menuId = req.params.id;
-    const updatemenuData = req.body;
-
-    const response = await menu.findByIdAndUpdate(menuId, updatemenuData, {
-      new: true,
-      runValidators: true,
-    });
-    if (!response) {
-      return res.status(404).json({ error: "Menu not found" });
+// POST Method to add a Menu Item
+router.post('/', async (req, res) =>{
+    try{
+        const data = req.body
+        const newMenu = new MenuItem(data);
+        const response = await newMenu.save();
+        console.log('data saved');
+        res.status(200).json(response);
     }
-    console.log("data updated");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error updating Menu" });
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  try {
-    const menuId = req.params.id;
-    const response = await menu.findByIdAndDelete(menuId);
-    if (!response) {
-      return res.status(404).json({ error: "Menu not found" });
+    catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
     }
-    console.log("data deleted");
-    res.status(200).json({ message: "Menu Deleted Succesfully" });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error deleting Menu" });
-  }
-});
+})
+
+// GET method to get the Menu Items
+router.get('/', async (req, res) =>{
+    try{
+        const data = await MenuItem.find();
+        console.log('data fetched');
+        res.status(200).json(data);
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+})
+
+router.get('/:taste', async (req, res) =>{
+    try{
+        const tasteType = req.params.taste; // // Extract the taste type from the URL parameter
+        if(tasteType == 'sweet' || tasteType == 'sour' || tasteType == 'spicy' ){
+            const response = await MenuItem.find({taste: tasteType});
+            console.log('response fetched');
+            res.status(200).json(response);
+        }else{
+            res.status(404).json({error: 'Invalid Taste type'});
+        }
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+})
+
+router.put('/:id', async (req, res)=>{
+    try{
+        const menuId = req.params.id; // Extract the id of Menu Item from the URL parameter
+        const updatedMenuData = req.body; // Updated data for the Menu Item
+
+        const response = await MenuItem.findByIdAndUpdate(menuId, updatedMenuData, {
+            new: true, // Return the updated document
+            runValidators: true, // Run Mongoose validation
+        })
+
+        if (!response) {
+            return res.status(404).json({ error: 'Menu Item not found' });
+        }
+
+        console.log('data updated');
+        res.status(200).json(response);
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    try{
+        const menuId = req.params.id; // Extract the Menu's ID from the URL parameter
+        
+        // Assuming you have a MenuItem model
+        const response = await MenuItem.findByIdAndRemove(menuId);
+        if (!response) {
+            return res.status(404).json({ error: 'Menu Item not found' });
+        }
+        console.log('data delete');
+        res.status(200).json({message: 'Menu Deleted Successfully'});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+})
+
+// comment added for testing purposes
 module.exports = router;
