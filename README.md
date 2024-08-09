@@ -117,5 +117,4 @@ The `MenuItem` data model represents information about menu items available in t
    npm install
    ```
    
-  
 - Website - [Manoj R Gupta](https://manoj-gupta-profile.vercel.app/)
