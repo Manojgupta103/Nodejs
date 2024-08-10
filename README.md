@@ -118,3 +118,4 @@ The `MenuItem` data model represents information about menu items available in t
    ```
    
 - Website - [Manoj R Gupta](https://manoj-gupta-profile.vercel.app/)
+- Email - [Manoj](manoj.gupta16539@sakec.ac.in)
