@@ -99,6 +99,7 @@ The `MenuItem` data model represents information about menu items available in t
   - `num_sales`: Number (Number of sales for the item, default is `0`)
 
 - **Example:**
+  
   ```json
   {
     "name": "Spicy Chicken Curry",
@@ -116,6 +117,6 @@ The `MenuItem` data model represents information about menu items available in t
    ```bash
    npm install
    ```
-   
+
 - Website - [Manoj R Gupta](https://manoj-gupta-profile.vercel.app/)
 - Email - [Manoj](manoj.gupta16539@sakec.ac.in)
