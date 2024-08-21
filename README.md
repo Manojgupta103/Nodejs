@@ -8,6 +8,7 @@ The **Node Hotel** application is a Node.js-based system developed using the Exp
 
   - Endpoint: `POST /person`
   - Description: Adds a person to the system with details such as name, role, etc.
+  - 
 
 - **Get All Persons:**
 
