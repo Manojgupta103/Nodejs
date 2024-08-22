@@ -56,7 +56,6 @@ The **Node Hotel** application is a Node.js-based system developed using the Exp
   - Description: Deletes a menu item from the system based on its ID.
 
 ## Data Models
-
 ### Person
 
 The `Person` data model represents information about staff members in the hotel.
