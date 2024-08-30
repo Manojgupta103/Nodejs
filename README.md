@@ -53,7 +53,7 @@ The **Node Hotel** application is a Node.js-based system developed using the Exp
 - **Delete a Menu Item:**
   - Endpoint: `DELETE /menu/:id`
   - Description: Deletes a menu item from the system based on its ID.
-  
+
 
 ## Data Models
 ### Person
